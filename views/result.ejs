@@ -3,4 +3,34 @@
 <div>
 	<h2>Currently: <%= Math.round(weatherResult.currently.temperature) %> degrees F</h2>
 </div>
-
+<hr>
+<div class="container">
+	<h2>Five Day Forecast</h2>
+	<p><%= weatherResult.daily.summary %></p>
+	<div class="row">
+		<% for (var i = 0; i< 5; i++) { %>
+			<div class="col s2 day">
+				<div class="row" >
+					<div class="col s12 white">
+						Friday
+					</div>
+					<div class="col s12 black">
+						Dec 21
+					</div>
+					<div class="col s12 info">
+						ICON
+					</div>
+					<div class="col s12 red">
+						<%= Math.round(weatherResult.daily.data[i].temperatureHigh) %>
+					</div>
+					<div class="col s12 blue">
+						<%= Math.round(weatherResult.daily.data[i].temperatureLow) %>
+					</div>
+					<div class="col s12 info summary">
+						<%= weatherResult.daily.data[i].summary %>
+					</div>
+			</div>
+		</div>
+		<% } %>
+	</div>
+</div>
