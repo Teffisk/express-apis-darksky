@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<h2>Results Page</h2>
-	<p>You searched: <%= userquery %> </p>
-	<ul>
-		<li>Latitude: <%= latitude %></li>
-		<li>Longitude: <%=longitude %></li>
-	</ul>
+<h2><%= query %></h2>
+<p><stong>Coordinates:</stong> (<%= lat %>, <%= lng %>)</p>
+<div>
+	<h2>Currently: <%= Math.round(weatherResult.currently.temperature) %> degrees F</h2>
+</div>
 
-</body>
-</html>

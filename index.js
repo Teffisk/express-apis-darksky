@@ -8,6 +8,9 @@ var request = require('request');
 // Declare your app
 var app = express();
 
+//read in the env file
+require('dotenv').config();
+
 // Tell express what view engine you want to use
 app.set('view engine', 'ejs');
 
@@ -22,18 +25,31 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-	request('https://api.darksky.net/forecast/'+process.env.DARKSKY_API_KEY+'/'+locations.x+','+locations.y, function(err, response, body) {
-	if(err) {console.log('error: '+err);
-	} else {
-		var results = JSON.parse(body);
-		geocoder.geocode(req.body.userquery, function(success, locations) {
-			console.log(DARKSKY_API_KEY)
-			console.log("Location: ", locations.x, locations.y)
-		})
-		res.render('result', {userquery: req.body.userquery, longitude: locations.x, latitude: locations.y});
-		}
-	})
+    console.log(req.body.location);
+    geocoder.geocode(req.body.location, function(success, location){
+    	if (success) {
+    		var urlToCall = process.env.DARKSKY_BASE_URL + location.y + ',' + location.x;
+    		console.log(urlToCall);
+    		request(urlToCall, function(error, response, body){
+    			if (error) {
+    				console.log("Error: "+error)
+    			} else {
+    				var weatherResult = JSON.parse(body);
+    				res.render('result', {
+    					lat: location.y, 
+    					lng: location.x, 
+    					query: req.body.location,
+    					weatherResult: weatherResult
+    				});
+    			}
+    		})	
+    	} else {
+    		console.log('Error: '+success, location)
+    		res.render('error');
+    	}
+    })
 });
+
 // Listen on PORT 3000
 app.listen(3000, function(){
   console.log('I\'m listening to the smooth sounds of port 3000 in the morning. ☕');
