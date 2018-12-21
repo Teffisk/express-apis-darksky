@@ -23,15 +23,14 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
 	request('https://api.darksky.net/forecast/'+process.env.DARKSKY_API_KEY+'/'+locations.x+','+locations.y, function(err, response, body) {
-		if(err) {console.log('error: '+err);
+	if(err) {console.log('error: '+err);
 	} else {
 		var results = JSON.parse(body);
 		geocoder.geocode(req.body.userquery, function(success, locations) {
-			if(success) {
-				console.log("Location: ", locations.x, locations.y);
-			}
-			res.render('result', {userquery: req.body.userquery, longitude: locations.x, latitude: locations.y});
-			})
+			console.log(DARKSKY_API_KEY)
+			console.log("Location: ", locations.x, locations.y)
+		})
+		res.render('result', {userquery: req.body.userquery, longitude: locations.x, latitude: locations.y});
 		}
 	})
 });
